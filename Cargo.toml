@@ -1,0 +1,9 @@
+[package]
+name = "lokin"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+chrono = "0.4.45"
+clap = "4.6.6"
+uuid = { version = "1.24.1", features = ["v4"] }
