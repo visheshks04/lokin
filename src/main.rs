@@ -1,18 +1,13 @@
-use clap::{ArgMatches, Command};
 mod cli;
+mod error;
+mod llm;
+mod session;
+mod storage;
 
 fn main() {
-    let mut command: Command = cli::build();
-    let matches: ArgMatches = command.clone().get_matches();
-
-    match matches.subcommand() {
-        Some(("start", args)) => cli::handlers::start(args),
-        Some(("stop",_)) => cli::handlers::stop(),
-        Some(("pause", _)) => cli::handlers::pause(),
-        Some(("resume", _)) => cli::handlers::resume(),
-        Some(("status", _)) => cli::handlers::status(),
-        _ => {
-            command.print_help().unwrap();
-        }
+    let matches = cli::build().get_matches();
+    if let Err(error) = cli::handlers::dispatch(&matches) {
+        eprintln!("Error: {error}");
+        std::process::exit(1);
     }
 }
